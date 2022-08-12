@@ -16,7 +16,6 @@ class Client(slixmpp.ClientXMPP):
         self.status = status
         self.status_message = status_message
 
-        self.messages = {}
         self.contacts = self.roster[self.jid]
         
         # # plugins
