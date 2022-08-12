@@ -110,5 +110,5 @@ class Client(slixmpp.ClientXMPP):
                 self.disconnect()
             message.reply(reply).send()
             #     # Receive images and docs
-            #     if sender != self.nickname and validators.url(body):
-            #         webbrowser.open(body)
+            if sender != self.jid and validators.url(body):
+                webbrowser.open(body)
