@@ -12,6 +12,7 @@ PRESENCE = "PRESENCE"
 EXIT = "EXIT"
 UNAVAILABLE = "UNAVAILABLE"
 CHAT = 'chat'
+GROUP_CHAT = 'groupchat'
 
 def mainMenu():
     option = input("\n \

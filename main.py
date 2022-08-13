@@ -46,7 +46,11 @@ while option1 != EXIT:
                 xmpp.process(timeout = 5)
             elif (option2 == CHAT_PRIVATE):
                 contact = input("Name: ")
-                xmpp.send_dm(contact)
+                xmpp.send_message_to(contact)
+                xmpp.process(forever=False)
+            elif (option2 == CHAT_GROUP):
+                group_id = input("Group ID: ")
+                xmpp.send_message_to_group(group_id)
                 xmpp.process(forever=False)
 
     ####### DONE

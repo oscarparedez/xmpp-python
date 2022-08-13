@@ -24,10 +24,12 @@ class Client(slixmpp.ClientXMPP):
         self.register_plugin('xep_0004') # Data Forms
         self.register_plugin('xep_0060') # PubSub
         self.register_plugin('xep_0085') # Chat State Notifications
+        self.register_plugin('xep_0045') # MUC
 
 		# events
         self.add_event_handler('session_start', self.start)
-        self.add_event_handler("message", self.chat)
+        self.add_event_handler("message", self.chat_dm)
+        self.add_event_handler("groupchat_message", self.chat_group)
 
     async def start(self, event):
         self.send_presence(pshow=self.status, pstatus=self.status_message)
@@ -35,7 +37,6 @@ class Client(slixmpp.ClientXMPP):
             # Ask for roster
             await self.get_roster()
             print(f"\n Login successfully: {self.jid}")
-            self.is_client_offline = False
         except:
             print("Could not log in.")
             self.disconnect()
@@ -85,7 +86,7 @@ class Client(slixmpp.ClientXMPP):
                         print("Status: -")
     
     #Send DM
-    def send_dm(self, recipient):
+    def send_message_to(self, recipient, type):
         message = input("You say ('exit' to leave chat): ")
         if message == "exit":
             self.disconnect()
@@ -97,7 +98,7 @@ class Client(slixmpp.ClientXMPP):
         )
 
     #Chat
-    def chat(self, message):
+    def chat_dm(self, message):
         if message['type'] == CHAT:
 
             sender = str(message['from'])
@@ -109,6 +110,30 @@ class Client(slixmpp.ClientXMPP):
             if reply == "exit":
                 self.disconnect()
             message.reply(reply).send()
-            #     # Receive images and docs
-            if sender != self.jid and validators.url(body):
-                webbrowser.open(body)
+            #Receive images and docs
+            # if sender != self.jid and validators.url(body):
+            #     webbrowser.open(body)
+
+    def send_message_to_group(self, group_id):
+        self.plugin['xep_0045'].join_muc(group_id, self.jid)
+        message = input("You say ('exit' to leave chat): ")
+        if message == "exit":
+            self.disconnect()
+        self.send_message(
+            mto=group_id,
+            mbody=message,
+            mtype=GROUP_CHAT
+        )
+
+    def chat_group(self, message):
+        if message['type'] == GROUP_CHAT:
+
+            sender = str(message['from'])
+            sender = sender[:sender.index("/")]
+            body = str(message['body'])
+            
+            print(sender, "says: ", body)
+            reply = input("You say ('exit' to leave chat): ")
+            if reply == "exit":
+                self.disconnect()
+            message.reply(reply).send()
