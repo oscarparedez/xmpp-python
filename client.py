@@ -36,7 +36,7 @@ class Client(slixmpp.ClientXMPP):
         try:
             # Ask for roster
             await self.get_roster()
-            print(f"\n Login successfully: {self.jid}")
+            print("Login successfully:", self.jid)
         except:
             print("Could not log in.")
             self.disconnect()
@@ -61,7 +61,7 @@ class Client(slixmpp.ClientXMPP):
         if not specific:
             for contact in self.contacts.keys():
                 if contact != self.jid:
-                    print(f"Contact: {contact}")
+                    print("Contact: ", {contact})
                     info = list(self.client_roster.presence(contact).values())
                     if info[0]['status'] != '':
                         print("Status Message: ", info[0]['status'])
@@ -74,7 +74,7 @@ class Client(slixmpp.ClientXMPP):
         else:
             for contact in self.contacts.keys():
                 if specific == contact:
-                    print(f"Contact: {contact}")
+                    print("Contact: ", {contact})
                     info = list(self.client_roster.presence(contact).values())
                     if info[0]['status'] != '':
                         print("Status Message: ", info[0]['status'])
