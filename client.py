@@ -87,7 +87,7 @@ class Client(slixmpp.ClientXMPP):
     
     #Send DM
     def send_message_to(self, recipient, type):
-        message = input("You say ('exit' to leave chat): ")
+        message = input(YOU_SAY)
         if message == "exit":
             self.disconnect()
         self.send_message(
@@ -106,7 +106,7 @@ class Client(slixmpp.ClientXMPP):
             body = str(message['body'])
             
             print(sender, "says: ", body)
-            reply = input("You say ('exit' to leave chat): ")
+            reply = input(YOU_SAY)
             if reply == "exit":
                 self.disconnect()
             message.reply(reply).send()
@@ -116,7 +116,7 @@ class Client(slixmpp.ClientXMPP):
 
     def send_message_to_group(self, group_id):
         self.plugin['xep_0045'].join_muc(group_id, self.jid)
-        message = input("You say ('exit' to leave chat): ")
+        message = input(YOU_SAY)
         if message == "exit":
             self.disconnect()
         self.send_message(
@@ -133,7 +133,7 @@ class Client(slixmpp.ClientXMPP):
             body = str(message['body'])
             
             print(sender, "says: ", body)
-            reply = input("You say ('exit' to leave chat): ")
+            reply = input(YOU_SAY)
             if reply == "exit":
                 self.disconnect()
             message.reply(reply).send()

@@ -14,6 +14,8 @@ UNAVAILABLE = "UNAVAILABLE"
 CHAT = 'chat'
 GROUP_CHAT = 'groupchat'
 
+YOU_SAY = "You say ('exit' to leave chat): "
+
 def mainMenu():
     option = input("\n \
 1: Register\n \
