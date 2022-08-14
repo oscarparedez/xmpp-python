@@ -14,11 +14,10 @@ UNAVAILABLE = "UNAVAILABLE"
 CHAT = 'chat'
 GROUP_CHAT = 'groupchat'
 SUBSCRIBE = "subscribe"
-STATUS_AVAILABLE = "Available"
-STATUS_UNAVAILABLE = 'Not Available'
-STATUS_AWAY = 'Away'
-STATUS_BUSY = 'Busy'
-STATUS_OFFLINE = 'Offline'
+STATUS_AVAILABLE = "chat"
+STATUS_UNAVAILABLE = 'xa'
+STATUS_AWAY = 'away'
+STATUS_BUSY = 'dnd'
 
 YOU_SAY = "You say ('exit' to leave chat): "
 NAME = "Name: "
@@ -73,21 +72,15 @@ def userMenu():
 def statusMenu():
     option = input("\n \
 1: Available\n \
-2: Away\n \
-3: Not Available\n \
-4: Away\n \
-5: Busy\n \
-6. Offline\n \
+2: Not Available\n \
+3: Away\n \
+4: Busy\n \
     ")
     if option == "1":
         return STATUS_AVAILABLE
     elif option == "2":
-        return STATUS_AWAY
-    elif option == "3":
         return STATUS_UNAVAILABLE
-    elif option == "4":
+    elif option == "3":
         return STATUS_AWAY
-    elif option == "5":
+    elif option == "4":
         return STATUS_BUSY
-    elif option == "6":
-        return STATUS_OFFLINE
