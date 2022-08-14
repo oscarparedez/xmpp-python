@@ -13,8 +13,16 @@ EXIT = "EXIT"
 UNAVAILABLE = "UNAVAILABLE"
 CHAT = 'chat'
 GROUP_CHAT = 'groupchat'
+SUBSCRIBE = "subscribe"
+STATUS_AVAILABLE = "Available"
+STATUS_UNAVAILABLE = 'Not Available'
+STATUS_AWAY = 'Away'
+STATUS_BUSY = 'Busy'
+STATUS_OFFLINE = 'Offline'
 
 YOU_SAY = "You say ('exit' to leave chat): "
+NAME = "Name: "
+STATUS_MESSAGE = "Status message: "
 
 def mainMenu():
     option = input("\n \
@@ -42,7 +50,7 @@ def userMenu():
 5: Chat privately\n \
 6. Chat grouply\n \
 7: Presence\n \
-8: Exit\n \
+8: Logout\n \
     ")
 
     if option == "1":
@@ -60,4 +68,26 @@ def userMenu():
     elif option == "7":
         return PRESENCE
     elif option == "8":
-        return EXIT
+        return LOGOUT
+
+def statusMenu():
+    option = input("\n \
+1: Available\n \
+2: Away\n \
+3: Not Available\n \
+4: Away\n \
+5: Busy\n \
+6. Offline\n \
+    ")
+    if option == "1":
+        return STATUS_AVAILABLE
+    elif option == "2":
+        return STATUS_AWAY
+    elif option == "3":
+        return STATUS_UNAVAILABLE
+    elif option == "4":
+        return STATUS_AWAY
+    elif option == "5":
+        return STATUS_BUSY
+    elif option == "6":
+        return STATUS_OFFLINE

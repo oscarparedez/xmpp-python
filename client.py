@@ -137,3 +137,11 @@ class Client(slixmpp.ClientXMPP):
             if reply == "exit":
                 self.disconnect()
             message.reply(reply).send()
+    
+    def update_presence(self, presence, status_message):
+        try:
+            self.status = presence
+            self.status_message = status_message
+            self.send_presence(pshow=presence, pstatus=status_message)
+        except:
+            print("Could not update status and status message.")
