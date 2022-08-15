@@ -1,10 +1,6 @@
-import logging
-from time import time
-from traceback import print_tb
 import slixmpp
 import asyncio
 import xmpp
-import time
 from slixmpp.exceptions import IqError, IqTimeout
 from utils import *
 
@@ -12,14 +8,14 @@ class Client(slixmpp.ClientXMPP):
     def __init__(self, jid, password, status, status_message):
         slixmpp.ClientXMPP.__init__(self, jid, password)
 
+        # Object's private vars
         self.jid = jid
         self.status = status
         self.status_message = status_message
         self.current_chat = ''
-
         self.contacts = self.roster[self.jid]
         
-        # # plugins
+        # plugins
         self.register_plugin('xep_0030') # Service Discovery
         self.register_plugin('xep_0199') # Ping
         self.register_plugin('xep_0004') # Data Forms
@@ -35,9 +31,8 @@ class Client(slixmpp.ClientXMPP):
     async def start(self, event):
         self.send_presence(pshow=self.status, pstatus=self.status_message)
         try:
-            # Ask for roster
             await self.get_roster()
-            print("Login successfully:", self.jid)
+            print("Logged in successfully:", self.jid)
         except:
             print("Could not log in.")
             self.disconnect()
@@ -45,7 +40,7 @@ class Client(slixmpp.ClientXMPP):
     #Send friend request
     def send_friend_request(self, recipient):
         try:
-            # Subscribe
+            # Send friend request
             self.send_presence_subscription(recipient, self.jid)
             print("Contact added: ", recipient)
         except:
@@ -59,6 +54,7 @@ class Client(slixmpp.ClientXMPP):
         if(len(self.contacts.keys()) == 0):
             print("You have no contacts in your contact list.")
 
+        # If no specific user's info was requested, 
         if not specific:
             for contact in self.contacts.keys():
                 if contact != self.jid:
@@ -72,6 +68,7 @@ class Client(slixmpp.ClientXMPP):
                         print("Status: ", info[0]['show'])
                     else:
                         print("Status: -")
+        # If a specific user's info was requested, 
         else:
             for contact in self.contacts.keys():
                 if specific == contact:
@@ -100,13 +97,14 @@ class Client(slixmpp.ClientXMPP):
             mfrom = self.jid
         )
 
-    #Chat
+    # Private Chat
     def chat_dm(self, message):
         if message['type'] == CHAT:
 
             sender = str(message['from'])
             sender = sender[:sender.index("/")]
             body = str(message['body'])
+            # If user is in a specific chat
             if self.current_chat == sender:
                 print(sender, "says: ", body)
                 reply = input(YOU_SAY)
@@ -114,9 +112,11 @@ class Client(slixmpp.ClientXMPP):
                     self.current_chat = ''
                     self.disconnect()
                 message.reply(reply).send()
+            # If user is not in any chat
             else:
                 print("* NOTIFICATION * New message from", sender, '* NOTIFICATION *')
 
+    # Send message to group
     def send_message_to_group(self, group_id):
         self.plugin['xep_0045'].join_muc(group_id, self.jid)
         message = input(YOU_SAY)
@@ -128,6 +128,7 @@ class Client(slixmpp.ClientXMPP):
             mtype=GROUP_CHAT
         )
 
+    # Group chat
     def chat_group(self, message):
         if message['type'] == GROUP_CHAT:
 
@@ -141,6 +142,7 @@ class Client(slixmpp.ClientXMPP):
                 self.disconnect()
             message.reply(reply).send()
     
+    # Update presence (status, status message)
     def update_presence(self, presence, status_message):
         try:
             self.status = presence

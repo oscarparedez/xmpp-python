@@ -2,6 +2,7 @@ import xmpp
 import slixmpp
 from slixmpp.exceptions import IqError, IqTimeout
 
+# Sign up method using external lib (xmpppy)
 def register(client, password):
 	jid = xmpp.JID(client)
 	account = xmpp.Client(jid.getDomain(), debug=[])
@@ -12,7 +13,7 @@ def register(client, password):
 	        'password': password
 	    }))
 
-
+# Delete account client
 class UnregisterClient(slixmpp.ClientXMPP):
 
     def __init__(self, jid, password):

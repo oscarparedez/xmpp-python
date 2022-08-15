@@ -1,8 +1,9 @@
+#Global vars
+
 REGISTER = "REGISTER"
 LOGIN = "LOGIN"
 LOGOUT = "LOGOUT"
 DELETE_ACCOUNT = "DELETE_ACCOUNT"
-START_CHAT = "START_CHAT"
 CHAT_PRIVATE = "CHAT_PRIVATE"
 CHAT_GROUP = "CHAT_GROUP"
 LIST_CONTACTS = "LIST_CONTACTS"
@@ -23,6 +24,7 @@ YOU_SAY = "You say ('exit' to leave chat): "
 NAME = "Name: "
 STATUS_MESSAGE = "Status message: "
 
+# First menu shown
 def mainMenu():
     option = input("\n \
 1: Register\n \
@@ -40,16 +42,16 @@ def mainMenu():
     elif option == "4":
         return EXIT
 
+# Second menu shown
 def userMenu():
     option = input("\n \
 1: Add contact\n \
 2: List Contacts\n \
 3: Show contact's information\n \
-4: Start a conversation\n \
-5: Chat privately\n \
-6. Chat grouply\n \
-7: Presence\n \
-8: Logout\n \
+4: Chat privately\n \
+5. Chat grouply\n \
+6: Presence\n \
+7: Logout\n \
     ")
 
     if option == "1":
@@ -59,16 +61,15 @@ def userMenu():
     elif option == "3":
         return LIST_CONTACT
     elif option == "4":
-        return START_CHAT
-    elif option == "5":
         return CHAT_PRIVATE
-    elif option == "6":
+    elif option == "5":
         return CHAT_GROUP
-    elif option == "7":
+    elif option == "6":
         return PRESENCE
-    elif option == "8":
+    elif option == "7":
         return LOGOUT
 
+# Status options menu
 def statusMenu():
     option = input("\n \
 1: Available\n \
