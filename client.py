@@ -15,6 +15,7 @@ class Client(slixmpp.ClientXMPP):
         self.jid = jid
         self.status = status
         self.status_message = status_message
+        self.current_chat = ''
 
         self.contacts = self.roster[self.jid]
         
@@ -86,9 +87,11 @@ class Client(slixmpp.ClientXMPP):
                         print("Status: -")
     
     #Send DM
-    def send_message_to(self, recipient, type):
+    def send_message_to(self, recipient):
+        self.current_chat = recipient
         message = input(YOU_SAY)
         if message == "exit":
+            self.current_chat = ''
             self.disconnect()
         self.send_message(
             mto = recipient, 
@@ -104,15 +107,15 @@ class Client(slixmpp.ClientXMPP):
             sender = str(message['from'])
             sender = sender[:sender.index("/")]
             body = str(message['body'])
-            
-            print(sender, "says: ", body)
-            reply = input(YOU_SAY)
-            if reply == "exit":
-                self.disconnect()
-            message.reply(reply).send()
-            #Receive images and docs
-            # if sender != self.jid and validators.url(body):
-            #     webbrowser.open(body)
+            if self.current_chat == sender:
+                print(sender, "says: ", body)
+                reply = input(YOU_SAY)
+                if reply == "exit":
+                    self.current_chat = ''
+                    self.disconnect()
+                message.reply(reply).send()
+            else:
+                print("* NOTIFICATION * New message from", sender, '* NOTIFICATION *')
 
     def send_message_to_group(self, group_id):
         self.plugin['xep_0045'].join_muc(group_id, self.jid)
